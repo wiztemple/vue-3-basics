@@ -1,10 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body></body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div id="appp">
+    <h1>Counter</h1>
+    <p>{{count}}</p>
+    <button v-on:click="incrementCount">Increment Count +</button>
+    <button v-on:click="decrementCount">Decrement Count -</button>
+    <h3>{{incrementAmount}}</h3>
+    <div>
+      <label for="" incrementAmount>Increment by:</label>
+      <!-- <input type="number" v-bind:value="incrementAmount" v-on:input="changeIncrementAmount" /> -->
+      <input type="number" v-model="incrementAmount" />
+    </div>
+    <hr />
+    <h1>Movies</h1>
+    <p v-if="!movies.length">No favorite movies is available at this time</p>
+
+    <ul v-else>
+      <li v-for="movie in movies">
+        <p>{{movie.name}}</p>
+        <button @click="favoriteMovie(movie)">star
+        </button>
+      </li>
+    </ul>
+    <h1>Favorite Movies of all time</h1>
+    <ul v-if="favoriteMovies.length > 0" />
+      <li v-for="fave in favoriteMovies">
+         {{fave.name}}
+      </li>
+    </ul>
+    <p v-else="!favoriteMovies.length">No favorite movies yet!</p>
+    <h3>New Movie</h3>
+    <pre>
+      {{newMovie}}
+    </pre>
+    <label for="movie-name" >Name</label>
+    <input type="text" v-model="newMovie.name" @keyup.enter="addNewMovie" />
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    const app = createApp({
+      data() {
+        return {
+          count: 10,
+          incrementAmount: 7,
+          newMovie: {
+            name: ''
+          },
+          movies: [{ name: "Shawshank Redemption" }, { name: "Forest Gump" }, { name: "Game of Thrones" }, { name: "Rocky Balboa" }],
+          favoriteMovies: []
+        }
+      },
+      methods: {
+        // changeIncrementAmount(event){
+        //   this.incrementAmount = event.target.value
+        // },
+        incrementCount() {
+          this.count += this.incrementAmount
+        },
+        decrementCount() {
+          this.count--
+        },
+        favoriteMovie(movie) {
+          this.favoriteMovies.push(movie)
+        },
+        addNewMovie() {
+          this.movies.push(this.newMovie)
+          this.newMovie = {name: ''}
+        }
+      }
+    });
+
+    app.mount("#appp")
+
+  </script>
+</body>
+
 </html>
